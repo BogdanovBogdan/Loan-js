@@ -1,10 +1,8 @@
+import Slider from "./slider";
 
-export default class Slider {
-	constructor(page, btns) {
-		this.page = document.querySelector(page);
-		this.slides = this.page.children;
-		this.btns = document.querySelectorAll(btns);
-		this.slideIndex = 1;
+export default class MainSlider extends Slider {
+	constructor(btns) {
+		super(btns)
 	}
 
 	showSlide(n) {
@@ -45,7 +43,7 @@ export default class Slider {
 	render() {
 		try {
 			this.widget = document.querySelector(".hanson");
-		} catch (error) {console.log(`An error occurred while getting the variable this.widget: ${error}`);}
+		} catch (error) { console.log(`An error occurred while getting the variable this.widget: ${error}`); }
 
 		this.btns.forEach(btn => {
 			btn.addEventListener("click", () => {
@@ -61,4 +59,4 @@ export default class Slider {
 
 		this.showSlide(this.slideIndex);
 	};
-};
+}
