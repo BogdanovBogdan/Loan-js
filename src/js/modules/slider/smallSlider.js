@@ -2,11 +2,13 @@ import Slider from "./slider";
 
 export default class SmallSlider extends Slider {
 	constructor({ activeClass = null, autoPlay = false, animation = false, ...options } = {}) {
-		super(options);
-		this.autoPlay = autoPlay;
-		this.activeClass = activeClass;
-		this.animation = animation;
-		this.button = this.container.querySelector("button");
+		try {
+			super(options);
+			this.autoPlay = autoPlay;
+			this.activeClass = activeClass;
+			this.animation = animation;
+			this.button = this.container.querySelector("button");
+		} catch (error) { }
 	}
 
 	decorizeSlides() {
@@ -48,27 +50,29 @@ export default class SmallSlider extends Slider {
 	};
 
 	init() {
-		this.container.style.cssText = `
+		try {
+			this.container.style.cssText = `
 			display: flex;
 			flex-wrap: wrap;
 			overflow: hidden;
 			align-items: flex-start;
-		`;
+			`;
 
-		this.bindTriggers();
-		this.decorizeSlides();
+			this.bindTriggers();
+			this.decorizeSlides();
 
-		if (this.autoPlay) {
-			this.autoSlide();
+			if (this.autoPlay) {
+				this.autoSlide();
 
-			for (const element of [this.next, this.prev, this.container]) {
-				element.addEventListener("mouseover", () => {
-					clearInterval(this.animation);
-				})
-				element.addEventListener("mouseout", () => {
-					this.autoSlide();
-				})
+				for (const element of [this.next, this.prev, this.container]) {
+					element.addEventListener("mouseover", () => {
+						clearInterval(this.animation);
+					})
+					element.addEventListener("mouseout", () => {
+						this.autoSlide();
+					})
+				};
 			};
-		};
+		} catch (error) {}
 	};
 };

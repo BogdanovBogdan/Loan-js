@@ -6,34 +6,36 @@ export default class MainSlider extends Slider {
 	}
 
 	showSlide(n) {
-		if (n > this.slides.length) {
-			this.slideIndex = 1;
-		} else if (n < 1) {
-			this.slideIndex = this.slides.length;
-		}
-
 		try {
-			this.widget.style.opacity = "0";
-
-			if (n === 3) {
-				this.widget.classList.add("animated");
-				setTimeout(() => {
-					this.widget.style.opacity = "1";
-					this.widget.classList.add("fadeInUp");
-				}, 3000)
-			} else {
-				this.widget.style.opacity = "0";
-				this.widget.classList.remove("fadeInUp");
+			if (n > this.slides.length) {
+				this.slideIndex = 1;
+			} else if (n < 1) {
+				this.slideIndex = this.slides.length;
 			}
-		} catch (error) {
-			console.log(`An error occurred while getting the variable this.widget: ${error}`);
-		}
 
-		this.slides.forEach(slide => {
-			slide.style.display = "none";
-		});
+			try {
+				this.widget.style.opacity = "0";
 
-		this.slides[this.slideIndex - 1].style.display = "block";
+				if (n === 3) {
+					this.widget.classList.add("animated");
+					setTimeout(() => {
+						this.widget.style.opacity = "1";
+						this.widget.classList.add("fadeInUp");
+					}, 3000)
+				} else {
+					this.widget.style.opacity = "0";
+					this.widget.classList.remove("fadeInUp");
+				}
+			} catch (error) {
+				console.log(`An error occurred while getting the variable this.widget: ${error}`);
+			}
+
+			this.slides.forEach(slide => {
+				slide.style.display = "none";
+			});
+
+			this.slides[this.slideIndex - 1].style.display = "block";
+		} catch (error) {}
 	};
 
 	plusSlide(n) {
