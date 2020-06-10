@@ -1,56 +1,49 @@
 import Slider from "./slider";
 
 export default class MainSlider extends Slider {
-	constructor(btns) {
-		super(btns)
+	constructor({ nextBtn = null, prevBtn = null, ...options }) {
+		super(options);
+		this.nextBtns = document.querySelectorAll(nextBtn);
+		this.prevBtns = document.querySelectorAll(prevBtn);
+		try { this.widget = document.querySelector(".hanson") } catch (error) { }
 	}
 
 	showSlide(n) {
+		if (n > this.slides.length) {
+			this.slideIndex = 1;
+		} else if (n < 1) {
+			this.slideIndex = this.slides.length;
+		}
+
 		try {
-			if (n > this.slides.length) {
-				this.slideIndex = 1;
-			} else if (n < 1) {
-				this.slideIndex = this.slides.length;
-			}
+			this.widget.style.opacity = "0";
 
-			try {
+			if (n === 3) {
+				this.widget.classList.add("animated");
+				setTimeout(() => {
+					this.widget.style.opacity = "1";
+					this.widget.classList.add("fadeInUp");
+				}, 3000)
+			} else {
 				this.widget.style.opacity = "0";
-
-				if (n === 3) {
-					this.widget.classList.add("animated");
-					setTimeout(() => {
-						this.widget.style.opacity = "1";
-						this.widget.classList.add("fadeInUp");
-					}, 3000)
-				} else {
-					this.widget.style.opacity = "0";
-					this.widget.classList.remove("fadeInUp");
-				}
-			} catch (error) {
-				console.log(`An error occurred while getting the variable this.widget: ${error}`);
+				this.widget.classList.remove("fadeInUp");
 			}
+		} catch (error) { }
 
-			this.slides.forEach(slide => {
-				slide.style.display = "none";
-			});
+		this.slides.forEach(slide => {
+			slide.style.display = "none";
+		});
 
-			this.slides[this.slideIndex - 1].style.display = "block";
-		} catch (error) {}
+		this.slides[this.slideIndex - 1].style.display = "block";
 	};
 
-	plusSlide(n) {
+	toSlide(n) {
 		this.showSlide(this.slideIndex += n);
 	};
 
-	render() {
-		try {
-			this.widget = document.querySelector(".hanson");
-		} catch (error) { console.log(`An error occurred while getting the variable this.widget: ${error}`); }
-
+	bindTriggers() {
 		this.btns.forEach(btn => {
-			btn.addEventListener("click", () => {
-				this.plusSlide(1);
-			});
+			btn.addEventListener("click", () => this.toSlide(1));
 
 			btn.parentElement.previousElementSibling.addEventListener("click", (e) => {
 				e.preventDefault();
@@ -58,7 +51,21 @@ export default class MainSlider extends Slider {
 			});
 		});
 
+		try {
+			this.nextBtns.forEach(nextBtn => {
+				nextBtn.addEventListener("click", () => this.toSlide(1))
+			})
 
-		this.showSlide(this.slideIndex);
+			this.prevBtns.forEach(prevBtn => {
+				prevBtn.addEventListener("click", () => this.toSlide(-1))
+			})
+		} catch (e) { }
+	}
+
+	render() {
+		if (this.container) {
+			this.bindTriggers();
+			this.showSlide(this.slideIndex);
+		}
 	};
 }

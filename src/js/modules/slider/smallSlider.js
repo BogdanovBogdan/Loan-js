@@ -8,7 +8,7 @@ export default class SmallSlider extends Slider {
 			this.activeClass = activeClass;
 			this.animation = animation;
 			this.button = this.container.querySelector("button");
-		} catch (error) { }
+		} catch (error) {}
 	}
 
 	decorizeSlides() {

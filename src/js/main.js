@@ -5,38 +5,42 @@ import Difference from "./modules/difference";
 import Form from "./modules/form";
 
 window.addEventListener("DOMContentLoaded", () => {
-	const mainSlider = new MainSlider({container: ".page", btns: ".next"});
-	mainSlider.render();
+	new MainSlider({container: ".page", btns: ".sidecontrol .next"}).render();
 
-	const sliderShowUp = new SmallSlider({
+	new MainSlider({
+		container: ".moduleapp", 
+		btns: ".sidecontrol .next",
+		nextBtn: ".nextmodule",
+		prevBtn: ".prevmodule"
+	}).render();
+
+	new SmallSlider({
 		container: ".showup__content-slider",
 		next: ".showup__next",
 		prev: ".showup__prev",
 		activeClass: "card-active",
 		animation: true
-	});
-	sliderShowUp.init();
+	}).init();
 
-	const sliderModules = new SmallSlider({
+	new SmallSlider({
 		container: ".modules__content-slider",
 		next: ".modules__info-btns .slick-next",
 		prev: ".modules__info-btns .slick-prev",
 		activeClass: "card-active",
 		animation: true,
 		autoPlay: true
-	});
-	sliderModules.init();
-
-	const sliderFeed = new SmallSlider({
+	}).init();
+	
+	new SmallSlider({
 		container: ".feed__slider",
 		next: ".feed__slider .slick-next",
 		prev: ".feed__slider .slick-prev",
 		activeClass: "feed__item-active",
-	});
-	sliderFeed.init();
+	}).init();
 
-	const player = new VideoPlayer(".showup .play", ".overlay");
-	player.init();
+	new VideoPlayer(".showup .play", ".overlay").init();
+
+	new VideoPlayer(".module__video-item .play", ".overlay").init();
 
 	new Difference (".officerold", ".officernew", ".officer__card-item", ".plus").init();
 
